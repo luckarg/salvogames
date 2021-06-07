@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Salvo Games</title>
+    <link rel="stylesheet" type="text/css" href="css/games.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<body>
+<h4 class="p-2 bg-dark text-white">Salvo Games</h4>
+<div class="container" id="app">
+    <template>
+        <!--  {{JSON.stringify(playerLogged)}} -->
+        <div v-if="playerLogged == 'guest'">
+            <form id="loginform" class="p-4">
+                <label>Name (e-mail): <input type="email" class="form-control" id="username"/></label>
+                <label>Password: <input type="password" class="form-control" id="password"/></label>
+                <button type="button" class="bg-dark text-white" onclick="login()">Log in</button>
+                <button type="button" class="bg-dark text-white" onclick="signup()">Sign up</button>
+            </form>
+        </div>
+        <div v-else>
+            <h5>Welcome {{playerLogged}}</h5>
+            <div class="col-3 px-0">
+                <button type="button" onclick="logout()" class="bg-dark text-white">Logout</button>
+            </div>
+            <div class="col-3 px-0">
+                <button type="button" onclick="create()" class="bg-dark text-white">Create Game</button>
+            </div>
+        </div>
+    </template>
+    <div>
+        <section>
+            <div class="p-4">
+                <h4 class="p-2 bg-dark text-white">Leaderboard</h4>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Player</th>
+                        <th>Won</th>
+                        <th>Lost</th>
+                        <th>Tied</th>
+                        <th>Total score</th>
+                    </tr>
+                    </thead>
+                    <tr v-for="player in orderedUsers" class="pt-2">
+                        <td>{{player.Name}}</td>
+                        <td>{{player.Won}}</td>
+                        <td>{{player.Lost}}</td>
+                        <td>{{player.Tied}}</td>
+                        <td>{{player.Total}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="p-4">
+                <h4 class="p-2 bg-dark text-white">List of Games</h4>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Created</th>
+                        <th>Player 1</th>
+                        <th></th>
+                        <th>Player 2</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tr v-for="game in games" class="pt-2">
+                        <td>{{game.id}}</td>
+                        <td>{{game.created | formatDate}}</td>
+                        <td>{{game.gamePlayers[0] != null ? game.gamePlayers[0].player.email : "please join..."}}</td>
+                        <td>vs</td>
+                        <td>{{game.gamePlayers[1] != null ? game.gamePlayers[1].player.email : "please join..."}}</td>
+                        <!--  -->
+                        <td>
+                            <button v-if="playerLogged != 'guest' && playerLogged == game.gamePlayers[0].player.email"
+                                    type="button" class="bg-dark text-white" @click="enterGame(game.gamePlayers[0].gamePlayerId)">Enter
+                            </button>
+                            <button v-if="playerLogged != 'guest' && (game.gamePlayers.length == 2 && playerLogged == game.gamePlayers[1].player.email)"
+                                    type="button" class="bg-dark text-white" @click="enterGame(game.gamePlayers[1].gamePlayerId)">Enter
+                            </button>
+                            <button v-if="playerLogged != 'guest' && game.gamePlayers.length == 1 && playerLogged != game.gamePlayers[0].player.email"
+                                    type="button" class="bg-dark text-white" @click="joinGame(game.id)">Join Game
+                            </button>
+                    </tr>
+               </table>
+
+
+            </div>
+        </section>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
+<script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
+<script src="./js/jquery-3.4.1.min.js"></script>
+<script src="./js/popper.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./js/games.js"></script>
+</body>
+</html>

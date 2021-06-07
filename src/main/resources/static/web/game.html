@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ships locations!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/normalize.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+<h3><div id="playerInfo" class="row justify-content-center" style="margin-bottom: 5px;"></div></h3>
+<button type="button" class="bg-dark text-white" onclick="window.location.href='/web/games.html'">&#9668; Back to the Game
+    List
+</button>
+<div class="row justify-content-center">
+<div class="container-fluid">
+        <div class="flex-container">
+            <div id="dock">
+                <!--The new ships will show up here, waiting for been placed in the grid -->
+            </div>
+            <div class="grid active" id="grid-ships">
+                <!--The grid will appear here -->
+            </div>
+            <div class="grid" id="grid-salvoes">
+            </div>
+        </div>
+</div>
+    <div class="row" id="turns">
+            <table class="table-responsive col-md-6">
+            <thead>
+                <tr>
+                    <th colspan="3">Hits on you</th>
+                </tr>
+                <tr>
+                    <th>Turn</th>
+                    <th>Hits</th>
+                    <th>Sunks</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="x in oppHits">
+                    <td>{{x.turn}}</td>
+                    <td>{{x.hits.join(', ')}}</td>
+                    <td>{{x.sunken.map(y => y.type).join(', ')}}</td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="table-responsive col-md-6">
+                <thead>
+                <tr>
+                    <th colspan="3">Hits on opponent</th>
+                </tr>
+                <tr>
+                    <th>Turn</th>
+                    <th>Hits</th>
+                    <th>Sunks</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="x in myHits">
+                    <td>{{x.turn}}</td>
+                    <td>{{x.hits.join(', ')}}</td>
+                    <td>{{x.sunken.map(y => y.type).join(', ')}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="./js/jquery-3.4.1.min.js"></script>
+<script src="./js/popper.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./js/ships.js"></script>
+<script src="./js/grid.js"></script>
+<script src="./js/game.js"></script>
+</body>
+</html>
